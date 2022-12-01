@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 1</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl" class="img-circle">
+        <h3>{{valuta}} live status is:</h3>
+        <ul>
+            <li ng-repeat="x in riga">{{x.rate}} {{x.code}}</li>
+        </ul>
+    </div>
+        
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $interval, $http) {
+        $interval(function(){$http.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+        .then(function(response) {
+        $scope.valuta = response.data.chartName;
+        $scope.riga = response.data.bpi;
+        })
+    }, 1000);
+    });
+    </script>
+</body>
+</html>
