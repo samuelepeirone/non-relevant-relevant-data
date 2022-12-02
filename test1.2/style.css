@@ -1,0 +1,31 @@
+body{
+    font-family: sans-serif;
+    font-size: 15px;
+    display: flex;
+}
+.data_card{
+    margin: 20px;
+    box-shadow: 2px 2px 4px 2px #EAEAEA;
+    padding: 20px;
+    width: 250px;
+    border-radius: 24px;
+}
+.data_output{
+    text-align: center;
+}
+.data_output ul li {
+    margin-left: 30px;
+    text-align: left;
+}
+.data_output_spy{
+    background-color: #E26868;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.data_output_live{
+    display: flex;
+    color: #E26868;
+    font-weight: bold;
+}

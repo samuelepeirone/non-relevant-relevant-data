@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 1</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angularanimate.js"></script>
+</head>
+<body ng-app="myApp">
+    <div class="data_card" ng-controller="BitcoinCtrl">
+        <div class="data_output">
+            <h3>{{valuta}} live status is:</h3>
+            <ul>
+                <li ng-repeat="x in riga">{{x.rate}} {{x.code}}</li>
+            </ul>
+            <p>{{funzia}}</p>
+            <div class="data_output_live" ng-show="live_spy"><div class="data_output_spy"></div>LIVE</div>
+            <div class="data_output_live" ng-hide="live_spy" style="color: white;"><div class="data_output_spy" style="background-color: white"></div>LIVE</div>
+        </div>
+    </div>
+    <div class="data_card" ng-controller="CatFactCtrl">
+        <div class="data_output">
+            <h3>Cat fact of the day:</h3>
+            <p>{{catfact}}</p>
+            <button ng-click="newcatfact()">New Cat Fact!</button>
+        </div>
+    </div>
+        
+    <script>
+    var myApp = angular.module('myApp', []);
+    myApp.controller('BitcoinCtrl', function($scope, $interval, $http) {
+        $interval(function(){$http.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+        .then(function(response) {
+            //non funzia :(
+            var x=response.data.bpi.rate;
+            if($scope.rate!=x){
+                $scope.funzia="cambio!";
+            }
+            else{
+                $scope.funzia="else!";
+            }
+            $scope.valuta = response.data.chartName;
+            $scope.riga = response.data.bpi;
+            if($scope.live_spy){
+                $scope.live_spy=false;
+            }
+            else{
+                $scope.live_spy=true;
+            }
+        })
+        }, 2000);
+    });
+    myApp.controller('CatFactCtrl', function($scope, $http){
+        $http.get("https://catfact.ninja/fact")
+        .then(function(response) {
+            $scope.catfact=response.data.fact;
+        })
+        $scope.newcatfact=function(){$http.get("https://catfact.ninja/fact")
+        .then(function(response) {
+            $scope.catfact=response.data.fact;
+        })}
+    });
+    </script>
+</body>
+</html>
